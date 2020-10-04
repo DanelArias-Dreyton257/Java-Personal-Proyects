@@ -7,6 +7,7 @@ import java.util.GregorianCalendar;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JList;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import objects.Task;
@@ -19,9 +20,11 @@ public class TaskWindow extends JFrame {
 	private static final int HEIGHT = 300;
 	private TaskOrganizer tOrg = new TaskOrganizer();
 	
-	private JList<String> lsTasks = new JList<>();
+	private JList<String> lsTasks = new JList<String>();
 	private DefaultListModel<String> mdLsTasks = new DefaultListModel<>();
-
+	
+	private JPanel pnLista = new JPanel();
+	
 	public TaskWindow() {
 		
 		Task t1 = new Task("Terminar Estadistica", new GregorianCalendar(2020, 9, 04), true);
@@ -32,7 +35,8 @@ public class TaskWindow extends JFrame {
 		setSize(WIDTH, HEIGHT);
 		setLocationRelativeTo(null);
 		
-		getContentPane().add(new JScrollPane(lsTasks),BorderLayout.CENTER);
+		getContentPane().add(pnLista,BorderLayout.CENTER);
+		pnLista.add(new JScrollPane(lsTasks));
 		lsTasks.setModel(mdLsTasks);
 		updateList();
 

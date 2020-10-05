@@ -173,18 +173,28 @@ public class Task implements Comparable<Task> {
 		SimpleDateFormat sd = new SimpleDateFormat("dd/MM/yyyy");
 		return sd.format(new java.util.Date(deadline.getTimeInMillis()));
 	}
-	
+
 	public String getStringForList() {
 		String sIm = "Imp";
-		if (!isImportant()) sIm= "N-"+sIm;
+		if (!isImportant())
+			sIm = "N-" + sIm;
 		String sUr = "Urg";
-		if (!isImportant()) sIm= "N-"+sUr;
-		return getName()+"[ "+sUr+", "+sIm+ "] ("+getDeadlineInString()+") "+getRemainingDays()+ "ds. remaining";
+		if (!isImportant())
+			sUr = "N-" + sUr;
+		return getName() + " [" + sUr + ", " + sIm + "] " + getRemainingDays() + "ds. to start" + " ("
+				+ getDeadlineInString() + ") ";
 	}
 
 	@Override
 	public int compareTo(Task o) {
-		return getRemainingDays() - o.getRemainingDays();
+		double n1 = 0;
+		double n2 = 0;
+		double extra = 100;
+		if (this.isImportant())
+			n1 += extra;
+		if (o.isImportant())
+			n2 += extra;
+		return (int) ((getRemainingDays() - n1) - (o.getRemainingDays() - n2));
 	}
 
 	@Override
@@ -192,8 +202,23 @@ public class Task implements Comparable<Task> {
 		String im = "IMPORTANT";
 		if (!important)
 			im = "NOT " + im;
-		return name + ", " + im + ", Finish before: " + getDeadlineInString() + ", " + getRemainingDays()
-				+ " days remaining ";
+		return name + ", " + im + ", " + getRemainingDays() + " days to start " + ", Finish before: "
+				+ getDeadlineInString();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		Task o = null;
+		if (obj instanceof Task) {
+			o = (Task) obj;
+			return this.name.equals(o.getName()) && this.deadline.equals(o.getDeadline());
+		} else
+			return false;
+	}
+
+	@Override
+	public int hashCode() {
+		return this.name.hashCode() - this.deadline.hashCode();
 	}
 
 }

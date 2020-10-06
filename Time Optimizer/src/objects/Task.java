@@ -11,36 +11,37 @@ import java.util.GregorianCalendar;
 public class Task implements Comparable<Task> {
 
 	private final static long DAY_MILLIS = 86400000;
+	private static int utilHoursInDay = 8;
 	private String name;
 	private boolean important = true;
 	private GregorianCalendar deadline;
-	private int expectedDaysLong;
+	private int expectedHoursLong;
 
 	/**
 	 * Creates a task
 	 * 
-	 * @param name             Name of the task
-	 * @param deadline         Date when the task must be finished
-	 * @param expectedDaysLong Expected days that will be spent in doing that task
-	 * @param important        boolean that indicates if the task is important
+	 * @param name              Name of the task
+	 * @param deadline          Date when the task must be finished
+	 * @param expectedHoursLong Expected hours that will be spent in doing that task
+	 * @param important         boolean that indicates if the task is important
 	 */
-	public Task(String name, GregorianCalendar deadline, int expectedDaysLong, boolean important) {
+	public Task(String name, GregorianCalendar deadline, int expectedHoursLong, boolean important) {
 		setName(name);
 		setDeadline(deadline);
 		setImportant(important);
-		setExpectedDaysLong(expectedDaysLong);
+		setExpectedHoursLong(expectedHoursLong);
 	}
 
 	/**
 	 * Creates a task
 	 * 
-	 * @param name             Name of the task
-	 * @param deadline         Date when the task must be finished
-	 * @param expectedDaysLong Expected days that will be spent in doing that task
-	 *                         It is automatically set as important
+	 * @param name              Name of the task
+	 * @param deadline          Date when the task must be finished
+	 * @param expectedHoursLong Expected hours that will be spent in doing that task
+	 *                          It is automatically set as important
 	 */
-	public Task(String name, GregorianCalendar deadline, int expectedDaysLong) {
-		this(name, deadline, expectedDaysLong, true);
+	public Task(String name, GregorianCalendar deadline, int expectedHoursLong) {
+		this(name, deadline, expectedHoursLong, true);
 	}
 
 	/**
@@ -53,7 +54,8 @@ public class Task implements Comparable<Task> {
 	 */
 	public Task(String name, GregorianCalendar deadline, boolean important) {
 		this(name, deadline,
-				(int) ((deadline.getTimeInMillis() - new GregorianCalendar().getTimeInMillis()) / DAY_MILLIS),
+				(int) (((deadline.getTimeInMillis() - new GregorianCalendar().getTimeInMillis()) / DAY_MILLIS)
+						* utilHoursInDay),
 				important);
 	}
 
@@ -124,21 +126,21 @@ public class Task implements Comparable<Task> {
 	}
 
 	/**
-	 * Returns the number of expected days to finish the task
+	 * Returns the number of expected hours to finish the task
 	 * 
-	 * @return int expectedDaysLong
+	 * @return int expectedHoursLong
 	 */
-	public int getExpectedDaysLong() {
-		return expectedDaysLong;
+	public int getExpectedHoursLong() {
+		return expectedHoursLong;
 	}
 
 	/**
-	 * Sets the number of expected days to finish the task
+	 * Sets the number of expected hours to finish the task
 	 * 
-	 * @param numDaysLong
+	 * @param numHoursLong
 	 */
-	public void setExpectedDaysLong(int numDaysLong) {
-		this.expectedDaysLong = numDaysLong;
+	public void setExpectedHoursLong(int numHoursLong) {
+		this.expectedHoursLong = numHoursLong;
 	}
 
 	/**
@@ -148,7 +150,7 @@ public class Task implements Comparable<Task> {
 	 * @return
 	 */
 	public boolean isUrgent() {
-		return (getRemainingDays() - expectedDaysLong) <= 1;
+		return (getRemainingHours() - expectedHoursLong) <= utilHoursInDay;
 	}
 
 	/**
@@ -156,12 +158,16 @@ public class Task implements Comparable<Task> {
 	 * 
 	 * @return
 	 */
-	public int getRemainingDays() {
+	public int getRemainingHours() {
 		long fD = deadline.getTimeInMillis();
 		long now = new GregorianCalendar().getTimeInMillis();
 		long sub = fD - now;
-		int res = (int) (sub / DAY_MILLIS);
+		int res = (int) ((sub / DAY_MILLIS) * utilHoursInDay);
 		return res;
+	}
+
+	public int getRemainingDays() {
+		return (int) (getRemainingHours() / utilHoursInDay);
 	}
 
 	/**
@@ -181,20 +187,20 @@ public class Task implements Comparable<Task> {
 		String sUr = "Urg";
 		if (!isImportant())
 			sUr = "N-" + sUr;
-		return getName() + " [" + sUr + ", " + sIm + "] " + getRemainingDays() + "ds. to start" + " ("
-				+ getDeadlineInString() + ") ";
+		return getName() + " [" + sUr + ", " + sIm + "] (" + expectedHoursLong + "hs.) " + getRemainingDays()
+				+ "ds. to start" + " (" + getDeadlineInString() + ") ";
 	}
 
 	@Override
 	public int compareTo(Task o) {
 		double n1 = 0;
 		double n2 = 0;
-		double extra = 100;
+		double extra = 10000;
 		if (this.isImportant())
 			n1 += extra;
 		if (o.isImportant())
 			n2 += extra;
-		return (int) ((getRemainingDays() - n1) - (o.getRemainingDays() - n2));
+		return (int) ((getRemainingHours() - n1) - (o.getRemainingHours() - n2));
 	}
 
 	@Override
@@ -202,8 +208,8 @@ public class Task implements Comparable<Task> {
 		String im = "IMPORTANT";
 		if (!important)
 			im = "NOT " + im;
-		return name + ", " + im + ", " + getRemainingDays() + " days to start " + ", Finish before: "
-				+ getDeadlineInString();
+		return name + ", " + im + ", (" + expectedHoursLong + "hs.) " + getRemainingHours() + " hours to start "
+				+ ", Finish before: " + getDeadlineInString();
 	}
 
 	@Override
@@ -219,6 +225,14 @@ public class Task implements Comparable<Task> {
 	@Override
 	public int hashCode() {
 		return this.name.hashCode() - this.deadline.hashCode();
+	}
+
+	public static int getUtilHoursInDay() {
+		return utilHoursInDay;
+	}
+
+	public static void setUtilHoursInDay(int utilHoursInDay) {
+		Task.utilHoursInDay = utilHoursInDay;
 	}
 
 }

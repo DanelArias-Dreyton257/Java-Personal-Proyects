@@ -1,56 +1,35 @@
 package objects;
 
-import java.util.TreeSet;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Iterator;
 
-/**
- * 
- * @author danel
- *
- */
-public class TaskOrganizer {
-
-	private TreeSet<Task> tasks = new TreeSet<>(); // Where task are organized
-
+public class TaskOrganizer implements Serializable, Iterable<Task>{
+	private static final long serialVersionUID = 1L;
+	
+	private ArrayList<Task> tasks = new ArrayList<>();
+	
+	private Comparator<Task> timeComparator = new Comparator<Task>() {
+		public int compare(Task o1, Task o2) {
+			return (int) (o1.getDeadline().getTimeInMillis()-o2.getDeadline().getTimeInMillis());
+		};
+	};
+	
 	public TaskOrganizer() {
-
+		
 	}
-
-	/**
-	 * Adds a task to the organizer
-	 * 
-	 * @param task
-	 */
-	public void add(Task task) {
-		tasks.add(task);
-	}
-
-	/**
-	 * Adds all the tasks as parameters to the organizer
-	 * 
-	 * @param tasks
-	 */
-	public void addAll(Task... tasks) {
-		for (Task t : tasks)
-			add(t);
+	public TaskOrganizer(Task...tasks) {
+		this.tasks.addAll(Arrays.asList(tasks));
+		sort();
 	}
 	
-	public String[] getTaskStringsforList() {
-		String[] strs = new String[tasks.size()];
-		int i=0;
-		for (Task t:tasks) {
-			strs[i]=t.getStringForList();
-			i++;
-		}
-		return strs;
+	private void sort() {
+		tasks.sort(timeComparator);
 	}
-	
-
 	@Override
-	public String toString() {
-		String s = "";
-		for (Task t : tasks) {
-			s += t.toString() + ",\n";
-		}
-		return "TaskOrganizer:\n[" + s + "]";
+	public Iterator<Task> iterator() {
+		return tasks.iterator();
 	}
 }

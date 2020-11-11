@@ -21,8 +21,7 @@ public class TaskOrganizer implements Serializable, Iterable<Task>{
 		
 	}
 	public TaskOrganizer(Task...tasks) {
-		this.tasks.addAll(Arrays.asList(tasks));
-		sort();
+		add(tasks);
 	}
 	
 	private void sort() {
@@ -31,5 +30,9 @@ public class TaskOrganizer implements Serializable, Iterable<Task>{
 	@Override
 	public Iterator<Task> iterator() {
 		return tasks.iterator();
+	}
+	public void add(Task...tasks) {
+		this.tasks.addAll(Arrays.asList(tasks));
+		sort();
 	}
 }

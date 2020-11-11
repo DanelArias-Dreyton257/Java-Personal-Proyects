@@ -1,12 +1,13 @@
 import objects.Task;
-import objects.TaskOrganizer;
+import objects.User;
 import visuals.TaskWindow;
 
 public class Main {
 
 	public static void main(String[] args) {
-		TaskOrganizer to = new TaskOrganizer(new Task("Marketing", 12, 11,11));
-		TaskWindow w = new TaskWindow(to);
+		User us = new User("Danel",5);
+		us.getTasks().add(new Task("Marketing", 12, 11, 23));
+		TaskWindow w = new TaskWindow(us);
 		w.setVisible(true);
 	}
 }

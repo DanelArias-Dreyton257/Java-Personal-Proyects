@@ -1,15 +1,19 @@
 package visuals;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import objects.Task;
 import objects.TaskOrganizer;
+import objects.User;
 
 public class TaskWindow extends JFrame {
 
@@ -19,9 +23,15 @@ public class TaskWindow extends JFrame {
 	
 	private DefaultListModel<String> mdTasks = new DefaultListModel<>();
 	private JList<String> lsTasks = new JList<String>();
+	
+	private JLabel lbUser = new JLabel();
+	
+	private JPanel pnCentral = new JPanel();
 
-	public TaskWindow(TaskOrganizer organizer) {
-		setOrganizer(organizer);
+	public TaskWindow(User user) {
+		
+		setOrganizer(user.getTasks());
+		lbUser.setText(user.getName() + " works "+user.getWorkingHoursDay()+" h a day");
 
 		setSize(400,400);
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -31,7 +41,9 @@ public class TaskWindow extends JFrame {
 		setTitle("Test");
 		
 		lsTasks.setModel(mdTasks);
-		getContentPane().add(new JScrollPane(lsTasks));
+		getContentPane().add(pnCentral,BorderLayout.CENTER);
+		getContentPane().add(lbUser,BorderLayout.NORTH);
+		pnCentral.add(new JScrollPane(lsTasks));
 		
 		updateList();
 	}

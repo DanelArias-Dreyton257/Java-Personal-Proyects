@@ -16,6 +16,7 @@ public class Task implements Serializable {
 	private String name;
 	private GregorianCalendar deadline;
 	private double completionRate;
+	private double expectedHoursLong;
 
 	/**
 	 * Constructor of a task where the deadline is already defined in a
@@ -24,8 +25,9 @@ public class Task implements Serializable {
 	 * @param name
 	 * @param deadline
 	 */
-	public Task(String name, GregorianCalendar deadline) {
+	public Task(String name, double expectedHoursLong, GregorianCalendar deadline) {
 		setName(name);
+		setExpectedHoursLong(expectedHoursLong);
 		setDeadline(deadline);
 		setCompletionRate(0);
 	}
@@ -42,14 +44,16 @@ public class Task implements Serializable {
 	 * @param hour   hour of the day in a 24 h format
 	 * @param minute minute of the hour, between 0 and 60
 	 */
-	public Task(String name, int day, int month, int hour, int minute) {
+	public Task(String name, double expectedHoursLong, int day, int month, int hour, int minute) {
 		GregorianCalendar now = new GregorianCalendar();
 		int year = now.get(Calendar.YEAR);
-		if (now.get(Calendar.MONTH) > month - 1 || (now.get(Calendar.MONTH) == month - 1 && now.get(Calendar.DAY_OF_MONTH) > day)) {
+		if (now.get(Calendar.MONTH) > month - 1
+				|| (now.get(Calendar.MONTH) == month - 1 && now.get(Calendar.DAY_OF_MONTH) > day)) {
 			year++;
 		}
 
 		setName(name);
+		setExpectedHoursLong(expectedHoursLong);
 		setDeadline(new GregorianCalendar(year, month - 1, day, hour, minute));
 		setCompletionRate(0);
 	}
@@ -64,8 +68,8 @@ public class Task implements Serializable {
 	 * @param month number of month of the year e.g. January -> 1 and December -> 12
 	 * @param hour  hour of the day in a 24 h format
 	 */
-	public Task(String name, int day, int month, int hour) {
-		this(name, day, month, hour, 0);
+	public Task(String name, double expectedHoursLong, int day, int month, int hour) {
+		this(name, expectedHoursLong, day, month, hour, 0);
 	}
 
 	/**
@@ -77,8 +81,8 @@ public class Task implements Serializable {
 	 * @param day   day of the month
 	 * @param month number of month of the year e.g. January -> 1 and December -> 12
 	 */
-	public Task(String name, int day, int month) {
-		this(name, day, month, 0, 0);
+	public Task(String name, double expectedHoursLong, int day, int month) {
+		this(name, expectedHoursLong, day, month, 0, 0);
 	}
 
 	/**
@@ -122,8 +126,8 @@ public class Task implements Serializable {
 	}
 
 	/**
-	 * /** Sets the completion rate of the task between 0 and 1, where 0 is nothing
-	 * done and 1 is completely done
+	 * Sets the completion rate of the task between 0 and 1, where 0 is nothing done
+	 * and 1 is completely done
 	 * 
 	 * @param completionRate
 	 * @throws IllegalArgumentException
@@ -152,6 +156,17 @@ public class Task implements Serializable {
 		return Utils.digitFormatter(dayOfTheMonth, 2) + "/" + Utils.digitFormatter(month, 2) + "/"
 				+ Utils.digitFormatter(year, 4) + " - " + Utils.digitFormatter(hour, 2) + ":"
 				+ Utils.digitFormatter(minute, 2);
+	}
+
+	public double getExpectedHoursLong() {
+		return expectedHoursLong;
+	}
+
+	public void setExpectedHoursLong(double expectedHoursLong) {
+		if (expectedHoursLong > 0) {
+			this.expectedHoursLong = expectedHoursLong;
+		} else
+			throw new IllegalArgumentException("The expectedHoursLong must be greater than 0");
 	}
 
 }

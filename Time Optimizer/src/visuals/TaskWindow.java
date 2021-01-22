@@ -31,12 +31,12 @@ public class TaskWindow extends JFrame {
 
 	public TaskWindow() {
 
-		Task t1 = new Task("Ejs BD", new GregorianCalendar(2020, 9, 7),2, true);
-		Task t2 = new Task("Hacer Sostenibilidad", new GregorianCalendar(2020, 9, 7), 2, false);
-		Task t3 = new Task("Proyecto prog", new GregorianCalendar(2021, 0, 01), true);
-		Task t4 = new Task("Hacer Trello Prog", new GregorianCalendar(2020, 9, 8), 2, false);
-		Task t5 = new Task("Telematics time management", new GregorianCalendar(2020, 9, 12), 4, true);
-		tOrg.addAll(t1, t2, t3, t4, t5);
+//		Task t1 = new Task("Ejs BD", new GregorianCalendar(2020, 9, 7),2, true);
+//		Task t2 = new Task("Hacer Sostenibilidad", new GregorianCalendar(2020, 9, 7), 2, false);
+//		Task t3 = new Task("Proyecto prog", new GregorianCalendar(2021, 0, 01), true);
+//		Task t4 = new Task("Hacer Trello Prog", new GregorianCalendar(2020, 9, 8), 2, false);
+//		Task t5 = new Task("Telematics time management", new GregorianCalendar(2020, 9, 12), 4, true);
+//		tOrg.addAll(t1, t2, t3, t4, t5);
 
 		System.out.println(tOrg);
 

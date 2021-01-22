@@ -38,7 +38,7 @@ public class TaskOrganizer {
 		String[] strs = new String[tasks.size()];
 		int i=0;
 		for (Task t:tasks) {
-			strs[i]=t.getStringForList();
+			strs[i]=t.getName();
 			i++;
 		}
 		return strs;

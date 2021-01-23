@@ -1,34 +1,38 @@
 package objects;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Iterator;
+import java.util.TreeSet;
 
-public class TaskOrganizer implements Serializable, Iterable<Task> {
-	private static final long serialVersionUID = 1L;
+/**
+ * 
+ * @author danel
+ *
+ */
+public class TaskOrganizer {
 
-	private ArrayList<Task> tasks = new ArrayList<>();
-
-	private Comparator<Task> timeComparator = new Comparator<Task>() {
-		public int compare(Task o1, Task o2) {
-			return (int) (o1.getDeadline().getTimeInMillis() - o2.getDeadline().getTimeInMillis());
-		};
-	};
+	private TreeSet<Task> tasks = new TreeSet<>(); // Where task are organized
 
 	public TaskOrganizer() {
 
 	}
 
-	public TaskOrganizer(Task... tasks) {
-		add(tasks);
+	/**
+	 * Adds a task to the organizer
+	 * 
+	 * @param task
+	 */
+	public void add(Task task) {
+		tasks.add(task);
 	}
 
-	private void sort() {
-		tasks.sort(timeComparator);
+	/**
+	 * Adds all the tasks as parameters to the organizer
+	 * 
+	 * @param tasks
+	 */
+	public void addAll(Task... tasks) {
+		for (Task t : tasks)
+			add(t);
 	}
-<<<<<<< HEAD
 	
 	public String[] getTaskStringsforList() {
 		String[] strs = new String[tasks.size()];
@@ -40,24 +44,13 @@ public class TaskOrganizer implements Serializable, Iterable<Task> {
 		return strs;
 	}
 	
-=======
->>>>>>> branch 'master' of https://github.com/DanelArias-Dreyton257/Personal-Proyects
 
 	@Override
-	public Iterator<Task> iterator() {
-		return tasks.iterator();
-	}
-
-	public void add(Task... tasks) {
-		this.tasks.addAll(Arrays.asList(tasks));
-		sort();
-	}
-
-	public Task get(int id) throws ArrayIndexOutOfBoundsException {
-		if (id >= 0 && id < this.tasks.size()) {
-			return this.tasks.get(id);
-		} else {
-			throw new ArrayIndexOutOfBoundsException();
+	public String toString() {
+		String s = "";
+		for (Task t : tasks) {
+			s += t.toString() + ",\n";
 		}
+		return "TaskOrganizer:\n[" + s + "]";
 	}
 }

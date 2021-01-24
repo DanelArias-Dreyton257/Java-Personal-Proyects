@@ -31,13 +31,12 @@ public class TaskWindow extends JFrame {
 
 	public TaskWindow() {
 
-//		Task t1 = new Task("Ejs BD", new GregorianCalendar(2020, 9, 7),2, true);
-//		Task t2 = new Task("Hacer Sostenibilidad", new GregorianCalendar(2020, 9, 7), 2, false);
-//		Task t3 = new Task("Proyecto prog", new GregorianCalendar(2021, 0, 01), true);
-//		Task t4 = new Task("Hacer Trello Prog", new GregorianCalendar(2020, 9, 8), 2, false);
-//		Task t5 = new Task("Telematics time management", new GregorianCalendar(2020, 9, 12), 4, true);
-//		tOrg.addAll(t1, t2, t3, t4, t5);
-
+		Task t1 = new Task("Programar Tareas", new GregorianCalendar(2021, 02, 7),27, 6);
+		Task t2 = new Task("Ordenar y limpiar habitacion", new GregorianCalendar(2021, 02, 7),22, 7);
+		Task t3 = new Task("Investigar PILAR", new GregorianCalendar(2021, 01, 29),3, 7);
+		Task t4 = new Task("Leds Vitrina", new GregorianCalendar(2021, 3, 31),2, 6);
+		tOrg.addAll(t1, t2, t3, t4);
+		
 		System.out.println(tOrg);
 
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

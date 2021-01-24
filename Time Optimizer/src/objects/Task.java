@@ -127,13 +127,12 @@ public class Task implements Comparable<Task> {
 		return Math.floorDiv(remainingMillis, DAY_MILLIS );
 	}
 	private double getHoursPerDay() {
-		return expectedHoursLong / getRemainingDays();
+		return (double)expectedHoursLong / getRemainingDays();
 	}
 
 	@Override
 	public String toString() {
-		//TODO
-		return super.toString();
+		return name + "V:"+getCalculatedValue();
 	}
 
 	@Override

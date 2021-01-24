@@ -7,21 +7,13 @@ import java.util.TreeSet;
  * @author danel
  *
  */
-public class TaskOrganizer {
+public class TaskOrganizer extends TreeSet<Task>{
 
-	private TreeSet<Task> tasks = new TreeSet<>(); // Where task are organized
+	
+	private static final long serialVersionUID = 1L;
 
 	public TaskOrganizer() {
 
-	}
-
-	/**
-	 * Adds a task to the organizer
-	 * 
-	 * @param task
-	 */
-	public void add(Task task) {
-		tasks.add(task);
 	}
 
 	/**
@@ -31,13 +23,13 @@ public class TaskOrganizer {
 	 */
 	public void addAll(Task... tasks) {
 		for (Task t : tasks)
-			add(t);
+			this.add(t);
 	}
 	
 	public String[] getTaskStringsforList() {
-		String[] strs = new String[tasks.size()];
+		String[] strs = new String[this.size()];
 		int i=0;
-		for (Task t:tasks) {
+		for (Task t:this) {
 			strs[i]=t.getName();
 			i++;
 		}
@@ -48,7 +40,7 @@ public class TaskOrganizer {
 	@Override
 	public String toString() {
 		String s = "";
-		for (Task t : tasks) {
+		for (Task t : this) {
 			s += t.toString() + ",\n";
 		}
 		return "TaskOrganizer:\n[" + s + "]";

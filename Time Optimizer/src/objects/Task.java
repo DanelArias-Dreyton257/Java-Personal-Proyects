@@ -130,7 +130,7 @@ public class Task implements Comparable<Task> {
 		return ChronoUnit.DAYS.between(new GregorianCalendar().toZonedDateTime().toLocalDate().atStartOfDay(), deadline.toZonedDateTime().toLocalDate().atStartOfDay());
 	}
 	public double getHoursPerDay() {
-		return (double)expectedHoursLong / getRemainingDays();
+		return (double)expectedHoursLong / (getRemainingDays()+0.1);
 	}
 
 	@Override

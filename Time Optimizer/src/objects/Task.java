@@ -1,6 +1,8 @@
 package objects;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.time.temporal.ChronoUnit;
 import java.util.GregorianCalendar;
 
 /**
@@ -10,7 +12,6 @@ import java.util.GregorianCalendar;
  */
 public class Task implements Comparable<Task> {
 
-	private final static long DAY_MILLIS = 86400000;
 	private String name;
 	private int importance = 0;
 	private GregorianCalendar deadline;
@@ -122,17 +123,20 @@ public class Task implements Comparable<Task> {
 		return (getHoursPerDay() * importance) / 10;
 	}
 	
-	private long getRemainingDays() {
-		long remainingMillis = deadline.getTimeInMillis() - new GregorianCalendar().getTimeInMillis();
-		return Math.floorDiv(remainingMillis, DAY_MILLIS );
+//	public long getRemainingHours() {
+//		return ChronoUnit.HOURS.between(new GregorianCalendar().toZonedDateTime().toLocalDate(), deadline.toZonedDateTime().toLocalDate().atStartOfDay());
+//	}
+	public long getRemainingDays() {
+		return ChronoUnit.DAYS.between(new GregorianCalendar().toZonedDateTime().toLocalDate().atStartOfDay(), deadline.toZonedDateTime().toLocalDate().atStartOfDay());
 	}
-	private double getHoursPerDay() {
+	public double getHoursPerDay() {
 		return (double)expectedHoursLong / getRemainingDays();
 	}
 
 	@Override
 	public String toString() {
-		return name + "V:"+getCalculatedValue();
+		DecimalFormat formatter = new DecimalFormat("#0.00"); 
+		return name + " Val:"+formatter.format(getCalculatedValue())+ "D:"+getDeadlineInString();
 	}
 
 	@Override

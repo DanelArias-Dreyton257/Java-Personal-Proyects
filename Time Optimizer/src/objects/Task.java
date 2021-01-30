@@ -136,7 +136,7 @@ public class Task implements Comparable<Task> {
 	@Override
 	public String toString() {
 		DecimalFormat formatter = new DecimalFormat("#0.00"); 
-		return name + " Val:"+formatter.format(getCalculatedValue())+ "D:"+getDeadlineInString();
+		return name + " Val: "+formatter.format(getCalculatedValue())+  "D: "+getDeadlineInString();
 	}
 
 	@Override

@@ -1,0 +1,5 @@
+package data.domain.enums;
+
+public enum TaskType {
+	DEADLINE, APPOINTMENT, PASSIVE, REPEATING_DEADLINE, REPEATING_APPOINTMENT;
+}
